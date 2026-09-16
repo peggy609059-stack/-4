@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧日照中心 - 實境模擬參訪系統</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <style>
+        body { margin: 0; font-family: "Microsoft JhengHei", sans-serif; }
+        #panorama { width: 100vw; height: 100vh; }
+        #title-overlay {
+            position: absolute; top: 20px; left: 20px; z-index: 10;
+            background: rgba(0, 0, 0, 0.75); color: white; padding: 15px 20px; border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        #title-overlay h2 { margin: 0 0 5px 0; font-size: 1.2rem; }
+        #title-overlay p { margin: 0; font-size: 0.9rem; color: #ccc; }
+    </style>
+</head>
+<body>
+
+    <div id="title-overlay">
+        <h2>日照中心虛擬參訪系統</h2>
+        <p>💡 提示：點擊畫面中的場景按鈕可自由穿梭各個區域（共12個區域）</p>
+    </div>
+
+    <div id="panorama"></div>
+
+    <script>
+    pannellum.viewer('panorama', {
+        "default": {
+            "firstScene": "entrance", // 預設從大門口開始
+            "author": "智慧場域專題",
+            "autoLoad": true,
+            "compass": true
+        },
+
+        "scenes": {
+            /* --- 1. 大門口 --- */
+            "entrance": {
+                "title": "大門口",
+                "type": "equirectangular",
+                "panorama": "櫃台.jpg",
+                "hotSpots": [
+                    { "pitch": 0, "yaw": 90, "type": "scene", "text": "前往：櫃檯區", "sceneId": "counter" }
+                ]
+            },
+
+            /* --- 3. 鞋櫃區 --- */
+            "shoes": {
+                "title": "鞋櫃區",
+                "type": "equirectangular",
+                "panorama": "櫃台.jpg",
+                "hotSpots": [
+                    { "pitch": 0, "yaw": -180, "type": "scene", "text": "返回：櫃檯區", "sceneId": "counter" },
+                    { "pitch": 0, "yaw": 0, "type": "scene", "text": "前往：置物櫃區", "sceneId": "locker" }
+                ]
+            },
+
+            /* --- 4. 置物櫃區 (可直接前往上課區) --- */
+            "locker": {
+                "title": "置物櫃區",
+                "type": "equirectangular",
+                "panorama": "櫃子.jpg",
+                "hotSpots": [
+                    { "pitch": 0, "yaw": -180, "type": "scene", "text": "返回：鞋櫃區", "sceneId": "shoes" },
+                    { "pitch": 0, "yaw": 90, "type": "scene", "text": "前往：活動區", "sceneId": "activity" },
+                    { "pitch": 0, "yaw": -90, "type": "scene", "text": "前往：上課區", "sceneId": "classroom" }
+                ]
+            },
+
+            /* --- 5. 活動區 --- */
+            "activity": {
+                "title": "活動區",
+                "type": "equirectangular",
+                "panorama": "活動區.jpg",
+                "hotSpots": [
+                    { "pitch": 0, "yaw": -90, "type": "scene", "text": "返回：置物櫃區", "sceneId": "locker" },
+                    { "pitch": 0, "yaw": -180, "type": "scene", "text": "前往：平安家", "sceneId": "yuanman" }
+                ]
+            },
+
+            /* --- 6. 平安家 --- */
+            "yuanman": {
+                "title": "平安家",
+                "type": "equirectangular",
+                "panorama": "平安家.jpg",
+                "hotSpots": [
+                    { "pitch": 0, "yaw": 0, "type": "scene", "text": "返回：活動區", "sceneId": "activity" },
+                    { "pitch": 0, "yaw": -90, "type": "scene", "text": "前往：快樂家", "sceneId": "happy" }
+                ]
+            },
+
+            /* --- 7. 快樂家 --- */
+            "happy": {
+                "title": "快樂家",
+                "type": "equirectangular",
+                "panorama": "快樂家.jpg",
+                "hotSpots": [
+                    { "pitch": 0, "yaw": 90, "type": "scene", "text": "返回：平安家", "sceneId": "yuanman" },
+                    { "pitch": 0, "yaw": -90, "type": "scene", "text": "前往：圓滿家", "sceneId": "peace" }
+                ]
+            },
+
+            /* --- 8. 圓滿家 --- */
+            "peace": {
+                "title": "圓滿家",
+                "type": "equirectangular",
+                "panorama": "圓滿家.jpg",
+                "hotSpots": [
+                    { "pitch": 0, "yaw": 90, "type": "scene", "text": "返回：快樂家", "sceneId": "happy" },
+                    { "pitch": 0, "yaw": -180, "type": "scene", "text": "前往：上課區", "sceneId": "classroom" }
+                ]
+            },
+
+            /* --- 9. 上課區 --- */
+            "classroom": {
+                "title": "上課區",
+                "type": "equirectangular",
+                "panorama": "上課區.jpg",
+                "hotSpots": [
+                    { "pitch": 0, "yaw": 0, "type": "scene", "text": "返回：圓滿家", "sceneId": "peace" },
+                    { "pitch": 0, "yaw": 45, "type": "scene", "text": "返回：置物櫃區", "sceneId": "locker" },
+                    { "pitch": 0, "yaw": -90, "type": "scene", "text": "前往：廚房區", "sceneId": "kitchen" },
+                    { "pitch": 0, "yaw": 90, "type": "scene", "text": "前往：無障礙廁所", "sceneId": "accessible_toilet" }
+                ]
+            },
+
+            /* --- 11. 無障礙廁所 --- */
+            "accessible_toilet": {
+                "title": "無障礙廁所",
+                "type": "equirectangular",
+                "panorama": "廁所4.jpg",
+                "hotSpots": [
+                    { "pitch": 0, "yaw": -90, "type": "scene", "text": "返回：上課區", "sceneId": "classroom" },
+                    { "pitch": 0, "yaw": 90, "type": "scene", "text": "前往：一般廁所區", "sceneId": "general_toilet" }
+                ]
+            },
+
+            /* --- 12. 一般廁所區 (對應圖下方廁所1~3) --- */
+            "general_toilet": {
+                "title": "一般廁所區",
+                "type": "equirectangular",
+                "panorama": "toilet2.jpg",
+                "hotSpots": [
+                    { "pitch": 0, "yaw": -90, "type": "scene", "text": "返回：無障礙廁所", "sceneId": "accessible_toilet" }
+                ]
+            }
+        }
+    });
+    </script>
+
+</body>
+</html>
